@@ -27,8 +27,9 @@ $ multipass exec k8s -- echo "source <(microk8s.kubectl completion bash)" >> ~/.
 $ multipass exec k8s -- /snap/bin/microk8s.kubectl config view --raw
 
 ```
-**Copie o resultado do comando acima e cole no arquivo ~/.kube/config da maquina local
-OBS: Não esqueça de apontar o IP da maquina multipass no arquivo ~/.kube/config**
+**Copie o resultado do comando acima e cole no arquivo ~/.kube/config da maquina local**
+
+**OBS: Não esqueça de apontar o IP da maquina multipass no arquivo ~/.kube/config**
 
 ###### Para adicionar um node ao k8s master, basta executar o seguindo comando no master
 ```sh
