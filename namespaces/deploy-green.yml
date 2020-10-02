@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deploygreen
+  namespace: green
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-color
+  template:
+    metadata:
+      labels:
+        app: nginx-color
+    spec:
+      containers:
+      - name: green-app
+        image: alysonfranklin/bluegreen:v2.0
+        resources:
+          limits:
+            cpu: "200m"
+        ports:
+        - containerPort: 80

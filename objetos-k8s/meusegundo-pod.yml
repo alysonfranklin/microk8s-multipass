@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: meusegundo-pod
+  labels:
+    app: meusegundo-pod
+    versao: azul
+spec:
+  containers:
+  - name: meusegundo-pod
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "100m"
+    ports:
+      - containerPort: 80

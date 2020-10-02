@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: meuprimeiro-deployment
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      app: meuprimeiro-deployment
+  template:
+    metadata:
+      labels:
+        app: meuprimeiro-deployment
+    spec:
+      containers:
+      - name: meuprimeiro-deployment
+        image: alysonfranklin/bluegreen:v2.0
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+          requests:
+              memory: "100Mi"
+              cpu: "200m"
+        ports:
+        - containerPort: 80
