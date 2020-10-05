@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongodb
+  namespace: homolog
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongodb
+  template:
+    metadata:
+      labels:
+        app: mongodb
+    spec:
+      containers:
+      - name: mongodb
+        image: mongo:4.2.8
+        resources:
+          limits:
+            memory: "400Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 27017
+        envFrom:
+            - secretRef:
+                name: mongodb-secret
