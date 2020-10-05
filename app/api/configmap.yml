@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: api-configmap
+  namespace: homolog
+data:
+  Mongo__DataBase: admin
+  Mongo__Host: mongodb.homolog.svc.cluster.local
+  Mongo__Port: "27017"

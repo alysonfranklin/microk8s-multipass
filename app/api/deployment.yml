@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api
-  namespace: api
+  namespace: homolog
 spec:
   replicas: 2
   selector:
@@ -23,14 +23,32 @@ spec:
         ports:
         - containerPort: 80
         imagePullPolicy: IfNotPresent
+        envFrom:
+            - configMapRef:
+                  name: api-configmap
+
         env:
-        - name: Mongo__Host
-          value: "mongodb.mongodb.svc.cluster.local"
         - name: Mongo__User
-          value: "mongouser"
-        - name: Mongo_Password
-          value: "mongopwd"
-        - name: Mongo__Port
-          value: "27017"
-        - name: Mongo_DataBase
-          value: "admin"
+          valueFrom:
+            configMapKeyRef:
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongodb-configmap
+
+        - name: Mongo__Password
+          valueFrom:
+                configMapKeyRef:
+                    key: MONGO_INITDB_ROOT_PASSWORD
+                    name: mongodb-configmap
+
+        
+        #env:
+        #- name: Mongo__Host
+        #  value: "mongodb.mongodb.svc.cluster.local"
+        #- name: Mongo__User
+        #  value: "mongouser"
+        #- name: Mongo_Password
+        #  value: "mongopwd"
+        #- name: Mongo__Port
+        #  value: "27017"
+        #- name: Mongo_DataBase
+        #  value: "admin"

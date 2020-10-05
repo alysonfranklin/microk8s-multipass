@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-    name: mongodb
+    name: homolog
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: mongodb
-  namespace: mongodb
+  namespace: homolog
 spec:
   selector:
     app: mongodb
