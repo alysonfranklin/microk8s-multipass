@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: api
+  template: 
+    metadata:       
+      labels:
+        app: api
+    spec:      
+      containers:
+      - name: api
+        image: fabricioveronez/pedelogo-catalogo:v1.0.0
+        ports:
+        - containerPort: 80
+        imagePullPolicy: IfNotPresent
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
+          timeoutSeconds: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        #livenessProbe:
+        #  httpGet:
+        #      path: /health
+        #      port: 80
+        #      scheme: HTTP
+        #  timeoutSeconds: 1
+        #  failureThreshold: 3
+        #  periodSeconds: 1
+        envFrom:
+          - configMapRef:
+              name: api-configmap
+        env:
+          - name: Mongo__User
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongodb-secret
+          - name: Mongo__Password
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongodb-secret
