@@ -1,0 +1,13 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+    name: hpa-api-deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: api-deployment
+  minReplicas: 2
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50 # Quando chegar a 50% de CPU utilizada em "requests" será escalado mais replicas/pods.
+  # Quando a CPU ficar abaixo de 50%, será diminuído a quantidade de replicas/pods até o mínimo.
