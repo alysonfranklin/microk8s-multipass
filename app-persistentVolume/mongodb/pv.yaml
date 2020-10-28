@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-mongodb
+  namespace: homolog
+  labels:
+    type: local
+spec:
+  storageClassName: manual
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce # Será escrito e lido por apenas um node
+  persistentVolumeReclaimPolicy: Retain # Persistir dados mesmo após excluir os pods/deployments
+  hostPath:
+    path: "/volumes/mongodb"
