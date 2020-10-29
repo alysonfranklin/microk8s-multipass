@@ -1,0 +1,35 @@
+## Crie o número de PV's de acordo com as replicas do StatefulSet
+## É necessário manter o nome igual para storageClassName
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-my-storage-class
+  labels:
+    type: local
+spec:
+  storageClassName: pv-my-storage-class
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce # Será escrito e lido por apenas um node
+  persistentVolumeReclaimPolicy: Retain # Persistir dados mesmo após excluir os pods/deployments
+  hostPath:
+    path: "/volumes/nginx"
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv-my-storage-class2
+  labels:
+    type: local
+spec:
+  storageClassName: pv-my-storage-class
+  capacity:
+    storage: 500Mi
+  accessModes:
+    - ReadWriteOnce # Será escrito e lido por apenas um node
+  persistentVolumeReclaimPolicy: Retain # Persistir dados mesmo após excluir os pods/deployments
+  hostPath:
+    path: "/volumes/nginx"
