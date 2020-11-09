@@ -1,0 +1,25 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: roleta-job
+spec:
+  schedule: "*/1 * * * *"
+  concurrencyPolicy: Forbid
+  jobTemplate:
+    spec:
+      backoffLimit: 20 # Limite de tentativas
+      parallelism: 2 # Roda dois Jobs ao mesmo tempo
+      completions: 3 # É necessário que o Job termine com sucesso 3 vezes
+      template:
+        spec:
+          containers:
+            - name: roleta-job
+              image: kubedevio/roleta
+              args:
+                - "-w"
+                - "5"
+                - "-c"
+                - "2"
+                - "-m"
+                - "5"
+          restartPolicy: Never
