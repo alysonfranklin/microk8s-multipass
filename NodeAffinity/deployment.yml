@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 5
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                - key: prioridade
+                  operator: In
+                  values:
+                    - "1"
+                    - "2"
+
+# Executando POD/Deployment em um node específico com NodeAffinity
+# O deployment é executado com ordem de prioridade, ou seja, primeiro 
+#ele tenta executar no node com prioridade 1
+# Antes de criar o deployment, é necessário criar a label no node
+# kubectl label node node1 prioridade=1
