@@ -1,0 +1,36 @@
+# Opcionalmente meus pods nginx-aaa rodam em nodes diferentes.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-aaa
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx-aaa
+  template:
+    metadata:
+      labels:
+        app: nginx-aaa
+    spec:
+      containers:
+      - name: nginx-aaa
+        image: nginx
+        resources:
+          limits:
+            memory: "100Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 80
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: In
+                    values:
+                      - "nginx-aaa" # Opcionalmente meus pods nginx-aaa rodam em nodes diferentes.
+              topologyKey: kubernetes.io/hostname # Uma label que exista nos nodes.
